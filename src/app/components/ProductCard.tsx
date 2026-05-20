@@ -129,13 +129,66 @@ export default function ProductCard({ product, onAddToCart }: ProductCardProps) 
           </div>
         </div>
 
-        <div className="p-4 sm:p-5 flex flex-col flex-1">
-          <h3 className="font-bold text-base sm:text-lg text-gray-800 mb-1 sm:mb-2 line-clamp-2 min-h-[2.5rem] sm:min-h-[3.5rem] group-hover:text-[#0F5132] transition-colors">
-            {product.name}
-          </h3>
-          <p className="text-xs sm:text-sm text-gray-500 line-clamp-3 leading-relaxed">
-            {product.description}
-          </p>
+        {/* Updated Grid Content Layout: Restored the complete interactive panel */}
+        <div className="p-4 sm:p-5 flex flex-col flex-1 justify-between">
+          <div>
+            <h3 className="font-bold text-base sm:text-lg text-gray-800 mb-1 sm:mb-2 line-clamp-2 min-h-[2.5rem] sm:min-h-[3.5rem] group-hover:text-[#0F5132] transition-colors">
+              {product.name}
+            </h3>
+            <p className="text-xs sm:text-sm text-gray-500 line-clamp-3 leading-relaxed mb-4">
+              {product.description}
+            </p>
+          </div>
+
+          <div className="mt-auto space-y-3">
+            {/* Price section visible in product list */}
+            <div className="flex items-baseline gap-0.5">
+              <span className="text-sm font-normal text-gray-500 mr-0.5">দাম</span>
+              <span className="text-xl sm:text-2xl font-black text-[#0F5132]">
+                {convertToBengaliNumber(product.price)}
+              </span>
+              <span className="text-xs sm:text-sm text-gray-500 ml-0.5">টাকা</span>
+            </div>
+
+            {/* Quantity control interface visible in product list */}
+            <div className="flex items-center justify-between bg-gray-50 rounded-xl p-1 border border-gray-100">
+              <span className="text-xs text-gray-500 pl-1">পরিমাণ:</span>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={handleDecrement}
+                  className="w-7 h-7 rounded-lg bg-white shadow-sm hover:bg-gray-100 flex items-center justify-center transition-colors border border-gray-200/60"
+                >
+                  <Minus className="w-3.5 h-3.5 text-gray-600" />
+                </button>
+                <span className="font-bold text-gray-800 w-6 text-center text-sm sm:text-base">
+                  {quantity}
+                </span>
+                {/*<span className="font-bold text-gray-800 w-6 text-center text-sm">
+                  {convertToBengaliNumber(quantity)}
+                </span>*/}
+                <button
+                  type="button"
+                  onClick={handleIncrement}
+                  className="w-7 h-7 rounded-lg bg-white shadow-sm hover:bg-gray-100 flex items-center justify-center transition-colors border border-gray-200/60"
+                >
+                  <Plus className="w-3.5 h-3.5 text-gray-600" />
+                </button>
+              </div>
+            </div>
+
+            {/* Action button visible in product list */}
+            <motion.button
+              onClick={handleAddToCartClick}
+              disabled={isAdding}
+              whileTap={{ scale: 0.96 }}
+              className={`w-full py-2.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-sm ${
+                isAdding ? 'bg-green-500 text-white' : 'bg-[#0F5132] text-white hover:bg-[#0a3821]'
+              }`}
+            >
+              {isAdding ? <>✔ যুক্ত হয়েছে!</> : <><ShoppingCart className="w-4 h-4" />কার্টে যোগ করুন</>}
+            </motion.button>
+          </div>
         </div>
       </motion.div>
 
@@ -235,8 +288,6 @@ export default function ProductCard({ product, onAddToCart }: ProductCardProps) 
                   <div className="flex items-baseline gap-0.5 mb-6">
                     <span className="text-l sm:text-l font-normal text-black-500 mr-0.5">দাম</span>
                     <span className="text-2xl font-black text-[#0F5132]">
-                      {/* ACTION: Converted the price display to Bengali characters here */}
-                      {/*৳{convertToBengaliNumber(product.price)} */ }
                       {convertToBengaliNumber(product.price)}
                     </span>
                     <span className="text-xs sm:text-sm text-black-500 ml-0.5">টাকা</span>
@@ -253,7 +304,6 @@ export default function ProductCard({ product, onAddToCart }: ProductCardProps) 
                         <Minus className="w-4 h-4" />
                       </button>
                       <span className="font-bold text-gray-800 w-6 text-center text-sm sm:text-base">
-                        {/* ACTION: Optional - Converted quantity counter digits to Bengali characters too */}
                         {quantity}
                       </span>
                       <button
@@ -274,7 +324,7 @@ export default function ProductCard({ product, onAddToCart }: ProductCardProps) 
                       isAdding ? 'bg-green-500 text-white' : 'bg-[#0F5132] text-white hover:bg-[#0a3821]'
                     }`}
                   >
-                    {isAdding ? <>✔ যুক্ত হয়েছে!</> : <><ShoppingCart className="w-5 h-5" />কার্টে যোগ করুন</>}
+                    {isAdding ? <>✔ যুক্ত হয়েছে!</> : <><ShoppingCart className="w-5 h-5" />কার্টে যোগ করুন</>}
                   </motion.button>
                 </div>
 
