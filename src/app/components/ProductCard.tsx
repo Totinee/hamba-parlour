@@ -55,84 +55,92 @@ export default function ProductCard({ product, onAddToCart }: ProductCardProps) 
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       whileHover={{ y: -8 }}
-      className="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group"
+      className="bg-white rounded-2xl sm:rounded-3xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden group flex flex-col h-full"
     >
-      {/* Product Image/Icon */}
-      <div className="relative h-48 bg-gradient-to-br from-[#0F5132]/10 to-[#D4A017]/10 flex items-center justify-center overflow-hidden">
-        {/* Category Badge */}
-        <div className="absolute top-3 right-3 px-3 py-1 bg-[#0F5132] text-white text-xs rounded-full">
+      {/* Product Image/Icon Container - FIXED: Scaled height for mobile */}
+      <div className="relative h-32 sm:h-48 bg-gradient-to-br from-[#0F5132]/10 to-[#D4A017]/10 flex items-center justify-center overflow-hidden shrink-0">
+        {/* Category Badge - FIXED: Responsive text size and position */}
+        <div className="absolute top-2 right-2 sm:top-3 sm:right-3 px-2 sm:px-3 py-0.5 sm:py-1 bg-[#0F5132] text-[10px] sm:text-xs text-white rounded-full">
           {categoryNames[product.category] || product.category}
         </div>
       </div>
 
-      {/* Product Info */}
-      <div className="p-5">
-        <h3 className="font-bold text-lg text-gray-800 mb-2 line-clamp-2 min-h-[3.5rem]">
-          {product.name}
-        </h3>
+      {/* Product Info Box - FIXED: flex dynamic wrapper with compact mobile padding */}
+      <div className="p-3 sm:p-5 flex flex-col flex-1 justify-between">
+        <div>
+          {/* Title - FIXED: Lowered minimum heights for mobile view widths */}
+          <h3 className="font-bold text-sm sm:text-lg text-gray-800 mb-1 sm:mb-2 line-clamp-2 min-h-[2.5rem] sm:min-h-[3.5rem]">
+            {product.name}
+          </h3>
 
-        <p className="text-sm text-gray-600 mb-4 line-clamp-2 min-h-[2.5rem]">
-          {product.description}
-        </p>
+          {/* Description - FIXED: Hidden on mobile grid to protect text spacing bounds */}
+          <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4 line-clamp-2 min-h-0 sm:min-h-[2.5rem] hidden sm:block">
+            {product.description}
+          </p>
+        </div>
 
-        {/* Price */}
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <span className="text-2xl font-bold text-[#0F5132]">
-              ৳{product.price}
+        {/* Footer actions pinned perfectly layout-wise */}
+        <div className="mt-auto space-y-2.5 sm:space-y-4">
+          {/* Price - FIXED: Adjusted font size dynamically */}
+          <div className="flex items-baseline gap-0.5">
+            <span className="text-lg sm:text-2xl font-black text-[#0F5132]">
+              Asking ৳{product.price}
             </span>
-            <span className="text-sm text-gray-500 ml-1">টাকা</span>
+            <span className="text-[10px] sm:text-sm text-gray-500">টাকা</span>
           </div>
-        </div>
 
-        {/* Quantity Selector */}
-        <div className="flex items-center gap-3 mb-4">
-          <span className="text-sm text-gray-600">পরিমাণ:</span>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setQuantity(Math.max(1, quantity - 1))}
-              className="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
-            >
-              <Minus className="w-4 h-4 text-gray-700" />
-            </button>
-            <span className="w-8 text-center font-medium">{quantity}</span>
-            <button
-              onClick={() => setQuantity(Math.min(99, quantity + 1))}
-              className="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
-            >
-              <Plus className="w-4 h-4 text-gray-700" />
-            </button>
-          </div>
-        </div>
-
-        {/* Add to Cart Button */}
-        <motion.button
-          onClick={handleAddToCart}
-          disabled={isAdding}
-          whileTap={{ scale: 0.95 }}
-          className={`w-full py-3 rounded-full font-medium transition-all flex items-center justify-center gap-2 ${
-            isAdding
-              ? 'bg-green-500 text-white'
-              : 'bg-[#0F5132] text-white hover:bg-[#0a3821] hover:shadow-lg'
-          }`}
-        >
-          {isAdding ? (
-            <>
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 0.5, repeat: 1 }}
+          {/* Quantity Selector - FIXED: Stacked beautifully or row-tightened layout */}
+          <div className="flex items-center justify-between bg-gray-50 rounded-xl p-1 border border-gray-100">
+            <span className="text-xs sm:text-sm text-gray-500 pl-1">পরিমাণ:</span>
+            <div className="flex items-center gap-1 sm:gap-2">
+              <button
+                type="button"
+                onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white shadow-sm hover:bg-gray-100 flex items-center justify-center transition-colors"
               >
-                ✓
-              </motion.div>
-              যুক্ত হয়েছে!
-            </>
-          ) : (
-            <>
-              <ShoppingCart className="w-5 h-5" />
-              কার্টে যোগ করুন
-            </>
-          )}
-        </motion.button>
+                <Minus className="w-3 h-3 sm:w-4 sm:h-4 text-gray-700" />
+              </button>
+              <span className="w-6 sm:w-8 text-center text-xs sm:text-sm font-bold text-gray-700">{quantity}</span>
+              <button
+                type="button"
+                onClick={() => setQuantity(Math.min(99, quantity + 1))}
+                className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white shadow-sm hover:bg-gray-100 flex items-center justify-center transition-colors"
+              >
+                <Plus className="w-3 h-3 sm:w-4 sm:h-4 text-gray-700" />
+              </button>
+            </div>
+          </div>
+
+          {/* Add to Cart Button - FIXED: Responsive text size and padding heights */}
+          <motion.button
+            onClick={handleAddToCart}
+            disabled={isAdding}
+            whileTap={{ scale: 0.95 }}
+            className={`w-full py-2 sm:py-3 px-2 rounded-xl sm:rounded-full font-bold transition-all flex items-center justify-center gap-1.5 text-xs sm:text-base ${
+              isAdding
+                ? 'bg-green-500 text-white'
+                : 'bg-[#0F5132] text-white hover:bg-[#0a3821] hover:shadow-lg'
+            }`}
+          >
+            {isAdding ? (
+              <>
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 0.5, repeat: 1 }}
+                  className="font-bold text-sm sm:text-lg"
+                >
+                  ✓
+                </motion.div>
+                <span className="truncate">যুক্ত হয়েছে!</span>
+              </>
+            ) : (
+              <>
+                <ShoppingCart className="w-3.5 h-3.5 sm:w-5 sm:h-5 shrink-0" />
+                <span className="truncate">কার্টে যোগ করুন</span>
+              </>
+            )}
+          </motion.button>
+        </div>
       </div>
     </motion.div>
   );
