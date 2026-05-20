@@ -1,18 +1,42 @@
+import rajokioSet1 from "../../images/rajokioSet1.jpeg";
+import rajokioSet2 from "../../images/rajokioSet2.jpeg";
+import shahiSet1 from "../../images/shahiSet1.jpeg";
+import shahiSet2 from "../../images/shahiSet2.jpeg";
+import lilabotiCombo1 from "../../images/lilabotiCombo1.jpeg";
+import lilabotiCombo2 from "../../images/lilabotiCombo2.jpeg";
+import oirabotiCombo1 from "../../images/oirabotiCombo1.jpeg";
+import oirabotiCombo2 from "../../images/oirabotiCombo2.jpeg";
+import bonolotaMala1 from "../../images/bonolotaMala1.jpeg";
+import bonolotaMala2 from "../../images/bonolotaMala2.jpeg";
+import mayabotiMala1 from "../../images/mayabotiMala1.jpeg";
+import mayabotiMala2 from "../../images/mayabotiMala2.jpeg";
+import jomkaloMala1 from "../../images/jomkaloMala1.jpeg";
+import jomkaloMala2 from "../../images/jomkaloMala2.jpeg";
+import bhushiRegular1 from "../../images/bhushiRegular1.jpeg";
+import bhushiGom from "../../images/bhushiGom.jpeg";
+import kura from "../../images/kura.jpeg";
+import combo1 from "../../images/combo1.jpeg";
+import combo2 from "../../images/combo2.jpeg";
+import khoil from "../../images/khoil.jpeg";
+
+
 import { useState } from 'react';
 import ProductCard from './ProductCard';
 import { CartItem } from '../App';
 
+// UPDATED: Shifted from single image to a string array
 interface Product {
   id: string;
   name: string;
   price: number;
   description: string;
   category: string;
-  image?: string;
+  images: string[]; 
 }
 
+// UPDATED: Added quantity parameter to sync seamlessly with App.tsx changes
 interface ProductSectionProps {
-  onAddToCart: (product: Omit<CartItem, 'quantity'>) => void;
+  onAddToCart: (product: Omit<CartItem, 'quantity'>, quantity: number) => void;
 }
 
 const categories = [
@@ -26,87 +50,107 @@ const categories = [
 const sampleProducts: Product[] = [
   {
     id: '1',
-    name: 'প্রিমিয়াম গো-খাদ্য (১০ কেজি)',
-    price: 1200,
-    description: 'উচ্চ পুষ্টিসম্পন্ন গো-খাদ্য যা আপনার পশুকে সুস্থ ও সবল রাখবে',
-    category: 'food',
-  },
-  {
-    id: '2',
-    name: 'বিশেষ ভুট্টা মিশ্রণ (৫ কেজি)',
-    price: 600,
-    description: 'তাজা ভুট্টা ও খড়ের মিশ্রণ, পশুর প্রিয় খাবার',
-    category: 'food',
-  },
-  {
-    id: '3',
-    name: 'সুপার ভিটামিন সাপ্লিমেন্ট',
+    name: 'হাম্বা রাজকীয় সাজ সেট',
     price: 450,
-    description: 'পশুর রোগ প্রতিরোধ ক্ষমতা বাড়ায়',
-    category: 'food',
-  },
-  {
-    id: '4',
-    name: 'প্রিমিয়াম গলার মালা সেট',
-    price: 850,
     description: 'রঙিন ফুল ও ঘন্টি দিয়ে তৈরি আকর্ষণীয় গলার মালা',
     category: 'decoration',
+    images: [rajokioSet1, rajokioSet2],
   },
   {
-    id: '5',
-    name: 'ঈদ বিশেষ সাজসজ্জা প্যাকেজ',
-    price: 1500,
-    description: 'সম্পূর্ণ সাজসজ্জার জন্য সব উপকরণ একসাথে',
-    category: 'decoration',
+  id: '2',
+  name: 'হাম্বা শাহী সাজ সেট',
+  price: 350,
+  description: 'কপাল পট্টি, শিংয়ের ক্যাপ ও ফুলের মালার আকর্ষণীয় শাহী সাজ সেট',
+  category: 'decoration',
+  images: [shahiSet1, shahiSet2],
   },
   {
-    id: '6',
-    name: 'রঙিন কাপড় ও ফিতা',
-    price: 350,
-    description: 'উজ্জ্বল রঙের কাপড় যা পশুকে আকর্ষণীয় করবে',
-    category: 'decoration',
+  id: '3',
+  name: 'লীলাবতী কম্বো',
+  price: 590,
+  description: 'ফুলের মালা, ঝালর ও লটকন সমৃদ্ধ চমৎকার ঈদ বিশেষ কম্বো প্যাক',
+  category: 'decoration',
+  images: [lilabotiCombo1, lilabotiCombo2],
   },
   {
-    id: '7',
-    name: 'শক্ত নাইলন দড়ি (২০ মিটার)',
-    price: 550,
-    description: 'মজবুত ও টেকসই নাইলন দড়ি',
-    category: 'rope',
+  id: '4',
+  name: 'ঐরাবতী কম্বো',
+  price: 890,
+  description: 'গলার মালা, কপাল পট্টি, শিং ও লেজের সাজসহ প্রিমিয়াম রাজকীয় কম্বো',
+  category: 'decoration',
+  images: [oirabotiCombo1, oirabotiCombo2],
   },
   {
-    id: '8',
-    name: 'হেভি ডিউটি চেইন',
-    price: 900,
-    description: 'বড় পশুর জন্য অতিরিক্ত মজবুত চেইন',
-    category: 'rope',
+  id: '5',
+  name: 'রাজকীয় বনলতা মালা',
+  price: 250,
+  description: 'ঝলমলে ও আকর্ষণীয় বহু রঙের কম্বিনেশনে তৈরি হালকা ও টেকসই রাজকীয় গলার মালা',
+  category: 'decoration',
+  images: [bonolotaMala1, bonolotaMala2],
   },
   {
-    id: '9',
-    name: 'অ্যান্টিসেপটিক স্প্রে',
-    price: 380,
-    description: 'পশুর ক্ষত ও চর্মরোগ প্রতিরোধে কার্যকর',
-    category: 'care',
+  id: '6',
+  name: 'রাজকীয় মায়াবতী মালা',
+  price: 150,
+  description: 'উচ্চমানের নরম উপাদানে তৈরি হালকা, টেকসই ও আরামদায়ক গলার মালা',
+  category: 'decoration',
+  images: [mayabotiMala1, mayabotiMala2],
   },
   {
-    id: '10',
-    name: 'ভেটেরিনারি কেয়ার কিট',
-    price: 1200,
-    description: 'প্রাথমিক চিকিৎসার সম্পূর্ণ সেট',
-    category: 'care',
+  id: '7',
+  name: 'রাজকীয় জমকালো মালা',
+  price: 280,
+  description: 'মাল্টি কালার ডিজাইন ও ঝালর বিশিষ্ট জমকালো ঝুলন্ত ফুলের মালা',
+  category: 'decoration',
+  images: [jomkaloMala1, jomkaloMala2],
   },
   {
-    id: '11',
-    name: 'মশা তাড়ানোর স্প্রে',
-    price: 320,
-    description: 'পশুকে মশা ও পোকামাকড় থেকে রক্ষা করে',
-    category: 'care',
+  id: '8',
+  name: 'ভুসি (Regular) - ১ কেজি',
+  price: 180,
+  description: 'সহজে হজমযোগ্য ও আঁশযুক্ত পুষ্টিকর ভুসি',
+  category: 'food',
+  images: [bhushiRegular1],
   },
   {
-    id: '12',
-    name: 'চকচকে ব্রাশ সেট',
-    price: 280,
-    description: 'পশুর লোম পরিষ্কার ও চকচকে করার জন্য',
-    category: 'care',
+  id: '9',
+  name: 'গমের/ ডাবলির ভুসি - ১ কেজি',
+  price: 280,
+  description: 'উচ্চ পুষ্টিগুণ সম্পন্ন প্রিমিয়াম কোয়ালিটির ভুসি',
+  category: 'food',
+  images: [bhushiGom],
+  },
+  {
+  id: '10',
+  name: 'কুড়া - ১ কেজি',
+  price: 180,
+  description: 'শক্তির উৎস ও পুষ্টিগুণে ভরপুর খাঁটি কুড়া',
+  category: 'food',
+  images: [kura],
+  },
+  {
+  id: '11',
+  name: 'খাদ্য কম্বো-১',
+  price: 490,
+  description: 'ভুসি/কুড়া, গমের/ডাবলির ভুসি এবং লবণের সমন্বয়ে গঠিত পশুর সুষম ও পুষ্টিকর কম্বো প্যাক',
+  category: 'food',
+  images: [combo1],
+  },
+  {
+  id: '12',
+  name: 'খাদ্য কম্বো-২',
+  price: 390,
+  description: 'ভুসি, কুড়া, গমের/ডাবলির ভুসি এবং লবণের পুষ্টিকর খাদ্য কম্বো',
+  category: 'food',
+  images: [combo2],
+  },
+  {
+  id: '13',
+  name: 'খৈল - ১ কেজি',
+  price: 180,
+  description: 'পশুর পুষ্টির জন্য উৎকৃষ্ট মানের খৈল',
+  category: 'food',
+  images: [khoil],
   },
 ];
 
@@ -148,7 +192,7 @@ export default function ProductSection({ onAddToCart }: ProductSectionProps) {
           ))}
         </div>
 
-        {/* Products Grid - UPDATED CLASSES HERE FOR 2 COLUMNS ON MOBILE */}
+        {/* Products Grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6">
           {filteredProducts.map((product) => (
             <ProductCard
@@ -163,7 +207,12 @@ export default function ProductSection({ onAddToCart }: ProductSectionProps) {
         {filteredProducts.length === 0 && (
           <div className="text-center py-16">
             <p className="text-xl text-gray-600">
-              এই ক্যাটাগরিতে এখনো পণ্য যুক্ত করা হয়নি
+              {/* FIXED: Changed activeCategory to selectedCategory */}
+              {selectedCategory === 'care' ? (
+                "Currently not available"
+              ) : (
+                "এই ক্যাটাগরিতে এখনো পণ্য যুক্ত করা হয়নি"
+              )}
             </p>
           </div>
         )}

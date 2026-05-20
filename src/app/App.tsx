@@ -14,7 +14,7 @@ export interface CartItem {
   name: string;
   price: number;
   quantity: number;
-  image?: string;
+  images?: string[]; // UPDATED: Changed from string to string[] to support multiple images
   category: string;
 }
 
@@ -23,17 +23,18 @@ export default function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
 
-  const addToCart = (product: Omit<CartItem, 'quantity'>) => {
+  // UPDATED: Now receives the product layout data along with the explicit quantity requested
+  const addToCart = (product: Omit<CartItem, 'quantity'>, selectedQuantity: number = 1) => {
     setCartItems((prev) => {
       const existing = prev.find((item) => item.id === product.id);
       if (existing) {
         return prev.map((item) =>
           item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
+            ? { ...item, quantity: item.quantity + selectedQuantity } // Increment by user-selected amount
             : item
         );
       }
-      return [...prev, { ...product, quantity: 1 }];
+      return [...prev, { ...product, quantity: selectedQuantity }]; // Create new item with selected amount
     });
     setIsCartOpen(true);
   };
@@ -69,6 +70,7 @@ export default function App() {
 
       <Hero />
 
+      {/* ProductSection will pass this function down to individual ProductCard instances */}
       <ProductSection onAddToCart={addToCart} />
 
       <Features />
